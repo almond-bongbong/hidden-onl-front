@@ -14,7 +14,10 @@ module.exports = (phase) => {
   return {
     env: {
       KAKAO_APP_KEY: process.env.KAKAO_APP_KEY,
-      HOST: isDev ? 'http://localhost:3000' : 'https://ideal-guide-client.now.sh',
+      API_URL: isDev ? 'http://localhost:5000' : process.env.API_URL,
+      HOST: isDev
+        ? 'http://localhost:3000'
+        : 'https://ideal-guide-client.now.sh',
     },
     webpack: (config) => {
       if (isDev) {
