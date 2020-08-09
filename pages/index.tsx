@@ -2,10 +2,11 @@ import { ReactElement } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import MainMap from '../components/MainMap/MainMap';
 import { GET_INFLUENCERS } from '../queries/influencerQueries';
+import { Query } from '../types/api';
 
 function IndexPage(): ReactElement {
-  const result = useQuery(GET_INFLUENCERS);
-  console.log(result.data);
+  const { data } = useQuery<Query>(GET_INFLUENCERS);
+  console.log(data?.getInfluencers);
 
   return (
     <div>
