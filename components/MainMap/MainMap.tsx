@@ -1,11 +1,23 @@
 import React, { ReactElement, useCallback, useEffect, useRef } from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { Query } from '../../types/api';
+import { GET_INFLUENCERS } from '../../queries/influencerQueries';
+import styled from 'styled-components';
+
+const MapContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;
 
 function MainMap(): ReactElement {
   const mapRef = useRef(null);
+  const { data } = useQuery<Query>(GET_INFLUENCERS);
   // const [latitude, setLatitude] = useState<number | null>(null);
   // const [longitude, setLongitude] = useState<number | null>(null);
   // const [markerLatitude, setMarkerLatitude] = useState<number | null>(null);
   // const [markerLongitude, setMarkerLongitude] = useState<number | null>(null);
+
+  console.log(data);
 
   const handleGeoSuccess: PositionCallback = useCallback(
     (position: Position) => {
@@ -49,22 +61,20 @@ function MainMap(): ReactElement {
 
   useEffect(() => {
     detectLocation();
-    const kakao = (window as any).kakao;
-    console.log(kakao);
+    const kakao = window.kakao;
     if (kakao) {
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3,
       };
-
       new kakao.maps.Map(mapRef.current, options);
+      console.log('init');
     }
   }, []);
 
   return (
     <div>
-      <p>{process.env.KAKAO_APP_KEY || '없음'}</p>
-      <div id="map" style={{ width: 500, height: 400 }} ref={mapRef} />
+      <MapContainer ref={mapRef} />
     </div>
   );
 }
