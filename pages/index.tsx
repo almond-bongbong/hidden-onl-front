@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import MainMap from '../components/MainMap/MainMap';
+import MainMap from '../components/main/MainMap';
 
 function IndexPage(): ReactElement {
   return (

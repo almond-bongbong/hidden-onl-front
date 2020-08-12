@@ -2,7 +2,8 @@ import 'styled-components';
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    color1: string;
+    primaryColor: string;
+    primaryRgba: (alpha?) => string;
     color2: string;
     color3: string;
     basicFont: string;
