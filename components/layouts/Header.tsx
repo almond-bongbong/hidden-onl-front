@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { useSideBarContext } from '../../contexts/SideBarContext';
 
 const Container = styled.header`
   position: fixed;
@@ -19,6 +20,7 @@ const Container = styled.header`
 `;
 
 function Header(): ReactElement {
+  const { openSideBar, closeSideBar } = useSideBarContext();
   return (
     <Container>
       <h1>
@@ -26,6 +28,12 @@ function Header(): ReactElement {
           <a>오늘</a>
         </Link>
       </h1>
+      <button type="button" onClick={openSideBar}>
+        open
+      </button>
+      <button type="button" onClick={closeSideBar}>
+        close
+      </button>
     </Container>
   );
 }

@@ -14,9 +14,7 @@ function createApolloClient() {
   });
 }
 
-export function initializeApollo(
-  initialState: { [key: string]: string } | null = null,
-): ApolloClient<InMemoryCache> {
+export function initializeApollo(initialState: { [key: string]: string } | null = null): ApolloClient<InMemoryCache> {
   const _apolloClient = apolloClient ?? createApolloClient();
 
   if (initialState) {
@@ -31,8 +29,6 @@ export function initializeApollo(
   return _apolloClient;
 }
 
-export function useApollo(
-  initialState: { [key: string]: string } | null,
-): ApolloClient<InMemoryCache> {
+export function useApollo(initialState: { [key: string]: string } | null): ApolloClient<InMemoryCache> {
   return useMemo(() => initializeApollo(initialState), [initialState]);
 }

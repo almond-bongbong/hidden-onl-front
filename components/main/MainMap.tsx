@@ -19,38 +19,32 @@ function MainMap(): ReactElement {
 
   console.log(data);
 
-  const handleGeoSuccess: PositionCallback = useCallback(
-    (position: Position) => {
-      const {
-        coords: { latitude, longitude },
-      } = position;
+  const handleGeoSuccess: PositionCallback = useCallback((position: Position) => {
+    const {
+      coords: { latitude, longitude },
+    } = position;
 
-      console.log(latitude, longitude);
+    console.log(latitude, longitude);
 
-      // setLatitude(latitude);
-      // setLongitude(longitude);
-      // setMarkerLatitude(latitude);
-      // setMarkerLongitude(longitude);
-    },
-    [],
-  );
+    // setLatitude(latitude);
+    // setLongitude(longitude);
+    // setMarkerLatitude(latitude);
+    // setMarkerLongitude(longitude);
+  }, []);
 
   const handleGeoError: PositionErrorCallback = useCallback((e) => {
     console.error(e);
   }, []);
 
-  const handleGeoWatchSuccess: PositionCallback = useCallback(
-    (position: Position) => {
-      const {
-        coords: { latitude, longitude },
-      } = position;
+  const handleGeoWatchSuccess: PositionCallback = useCallback((position: Position) => {
+    const {
+      coords: { latitude, longitude },
+    } = position;
 
-      console.log(latitude, longitude);
-      // setMarkerLatitude(latitude);
-      // setMarkerLongitude(longitude);
-    },
-    [],
-  );
+    console.log(latitude, longitude);
+    // setMarkerLatitude(latitude);
+    // setMarkerLongitude(longitude);
+  }, []);
 
   const detectLocation = useCallback(() => {
     navigator.geolocation.getCurrentPosition(handleGeoSuccess, handleGeoError);
