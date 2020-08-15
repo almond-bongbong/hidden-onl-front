@@ -64,7 +64,7 @@ function MainMap(): ReactElement {
       new kakao.maps.Map(mapRef.current, options);
       console.log('init');
     }
-  }, []);
+  }, [detectLocation]);
 
   return (
     <div>

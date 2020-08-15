@@ -4,7 +4,7 @@ import Head from 'next/head';
 function Meta(): ReactElement {
   return (
     <Head>
-      <title>오늘</title>
+      <title>오늘,</title>
       <link rel="shortcut icon" href="/favicon.ico" />
       <link
         href="https://fonts.googleapis.com/css2?family=Gugi&family=Noto+Sans+KR:wght@300;400;700&display=swap"

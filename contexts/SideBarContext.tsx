@@ -2,8 +2,8 @@ import { createContext, ReactElement, ReactNode, useCallback, useContext, useSta
 
 interface Context {
   active: boolean;
-  openSideBar?: () => void;
-  closeSideBar?: () => void;
+  openSideBar: () => void;
+  closeSideBar: () => void;
 }
 
 interface Props {
@@ -12,6 +12,8 @@ interface Props {
 
 export const SideBarContext = createContext<Context>({
   active: false,
+  openSideBar: () => null,
+  closeSideBar: () => null,
 });
 
 export function SideBarProvider({ children }: Props): ReactElement {
