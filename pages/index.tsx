@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
-import MainMap from '../components/main/MainMap';
+import MainMapContainer from '../container/main/MainMapContainer';
 import MainLayout from '../components/layouts/MainLayout';
 
 function IndexPage(): ReactElement {
   return (
     <MainLayout>
-      <MainMap />
+      <MainMapContainer />
     </MainLayout>
   );
 }

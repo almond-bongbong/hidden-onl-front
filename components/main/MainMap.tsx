@@ -1,76 +1,70 @@
-import React, { ReactElement, useCallback, useEffect, useRef } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { Query } from '../../types/api';
-import { GET_INFLUENCERS } from '../../queries/influencerQueries';
+import React, { memo, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { isBrowser } from '../../libs/validation';
+import { Map, Marker, MarkerClusterer } from '../../types/common';
+
+interface MapProps {
+  latitude: number | null;
+  longitude: number | null;
+  markerLatitude: number | null;
+  markerLongitude: number | null;
+}
 
 const MapContainer = styled.div`
   width: 100vw;
   height: 100vh;
 `;
 
-function MainMap(): ReactElement {
-  const mapRef = useRef(null);
-  const { data } = useQuery<Query>(GET_INFLUENCERS);
-  // const [latitude, setLatitude] = useState<number | null>(null);
-  // const [longitude, setLongitude] = useState<number | null>(null);
-  // const [markerLatitude, setMarkerLatitude] = useState<number | null>(null);
-  // const [markerLongitude, setMarkerLongitude] = useState<number | null>(null);
+const kakao = isBrowser() && window.kakao;
 
-  console.log(data);
-
-  const handleGeoSuccess: PositionCallback = useCallback((position: Position) => {
-    const {
-      coords: { latitude, longitude },
-    } = position;
-
-    console.log(latitude, longitude);
-
-    // setLatitude(latitude);
-    // setLongitude(longitude);
-    // setMarkerLatitude(latitude);
-    // setMarkerLongitude(longitude);
-  }, []);
-
-  const handleGeoError: PositionErrorCallback = useCallback((e) => {
-    console.error(e);
-  }, []);
-
-  const handleGeoWatchSuccess: PositionCallback = useCallback((position: Position) => {
-    const {
-      coords: { latitude, longitude },
-    } = position;
-
-    console.log(latitude, longitude);
-    // setMarkerLatitude(latitude);
-    // setMarkerLongitude(longitude);
-  }, []);
-
-  const detectLocation = useCallback(() => {
-    navigator.geolocation.getCurrentPosition(handleGeoSuccess, handleGeoError);
-    navigator.geolocation.watchPosition(handleGeoWatchSuccess, handleGeoError, {
-      enableHighAccuracy: true,
-    });
-  }, [handleGeoSuccess, handleGeoWatchSuccess, handleGeoError]);
+function MainMap({ latitude, longitude, markerLatitude, markerLongitude }: MapProps) {
+  const initialized = useRef<boolean>(false);
+  const mapEl = useRef<HTMLDivElement>(null);
+  const map = useRef<Map>(null);
+  const clusterer = useRef<MarkerClusterer>(null);
+  const currentLocationMarker = useRef<Marker>(null);
 
   useEffect(() => {
-    detectLocation();
-    const kakao = window.kakao;
-    if (kakao) {
+    if (!initialized.current) {
+      const container = mapEl.current;
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
+        center: new kakao.maps.LatLng(37.5646854, 126.9742512),
+        level: 5,
       };
-      new kakao.maps.Map(mapRef.current, options);
-      console.log('init');
-    }
-  }, [detectLocation]);
+      map.current = new kakao.maps.Map(container, options);
+      map.current.setMaxLevel(10);
 
-  return (
-    <div>
-      <MapContainer ref={mapRef} />
-    </div>
-  );
+      clusterer.current = new kakao.maps.MarkerClusterer({
+        map: map.current,
+        averageCenter: true,
+        minLevel: 7,
+      });
+    }
+
+    initialized.current = true;
+  }, [initialized]);
+
+  useEffect(() => {
+    if (latitude && longitude && map.current) {
+      const latlng = new kakao.maps.LatLng(latitude, longitude);
+      map.current.setCenter(latlng);
+    }
+  }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (markerLatitude && markerLongitude) {
+      if (currentLocationMarker.current) {
+        currentLocationMarker.current.setPosition(new kakao.maps.LatLng(markerLatitude, markerLongitude));
+      } else {
+        currentLocationMarker.current = new kakao.maps.Marker({
+          map: map.current,
+          position: new kakao.maps.LatLng(markerLatitude, markerLongitude),
+        });
+      }
+    }
+  }, [markerLatitude, markerLongitude]);
+
+  return <MapContainer className="map-container" ref={mapEl} />;
 }
 
-export default MainMap;
+export default memo(MainMap);

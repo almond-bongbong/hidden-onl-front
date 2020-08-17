@@ -12,7 +12,7 @@ const Container = styled.nav<{ active: boolean }>`
   z-index: 100;
   width: 200px;
   padding-top: 40px;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(100, 100, 100, 0.75);
   transform: translateX(${({ active }) => (active ? '0%' : '100%')});
   transition: transform 0.3s ease-in-out;
 
@@ -21,8 +21,8 @@ const Container = styled.nav<{ active: boolean }>`
       display: block;
       padding: 10px 20px;
       font-size: 16px;
-      color: #555;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      color: #fff;
+      text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
     }
   }
 `;
@@ -37,6 +37,10 @@ function SideBar(): ReactElement {
   useEffect(() => {
     if (active) document.addEventListener('click', handleClose);
     else document.removeEventListener('click', handleClose);
+
+    return () => {
+      document.removeEventListener('click', handleClose);
+    };
   }, [active, handleClose]);
 
   const handleClickContainer = (e: MouseEvent): void => {

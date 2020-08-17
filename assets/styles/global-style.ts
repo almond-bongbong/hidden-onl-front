@@ -44,6 +44,8 @@ export default createGlobalStyle`
       text-decoration: none;
       line-height: 1.5;
       font-family: ${({ theme }): string => theme.basicFont};
+      // disable double tab zoom
+      touch-action: manipulation;
   }
   button {
       outline: 0;
