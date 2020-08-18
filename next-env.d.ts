@@ -4,3 +4,5 @@
 declare interface Window {
   kakao: any;
 }
+
+declare module 'uuid4';
