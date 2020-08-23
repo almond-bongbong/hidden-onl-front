@@ -1,8 +1,9 @@
-import { MouseEvent, ReactElement, useCallback, useEffect } from 'react';
+import React, { MouseEvent, ReactElement, useCallback, useEffect } from 'react';
 import Portal from '../common/Portal';
 import styled from 'styled-components';
 import { useSideBarContext } from '../../contexts/SideBarContext';
 import Link from 'next/link';
+import HamburgerButton from './HamburgerButton';
 
 const Container = styled.nav<{ active: boolean }>`
   position: fixed;
@@ -12,7 +13,8 @@ const Container = styled.nav<{ active: boolean }>`
   z-index: 100;
   width: 200px;
   padding-top: 40px;
-  background-color: rgba(100, 100, 100, 0.75);
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: -1px 0 3px 1px rgba(100, 100, 100, 0.1);
   transform: translateX(${({ active }) => (active ? '0%' : '100%')});
   transition: transform 0.3s ease-in-out;
 
@@ -21,14 +23,13 @@ const Container = styled.nav<{ active: boolean }>`
       display: block;
       padding: 10px 20px;
       font-size: 16px;
-      color: #fff;
       text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
     }
   }
 `;
 
 function SideBar(): ReactElement {
-  const { active, closeSideBar } = useSideBarContext();
+  const { active, openSideBar, closeSideBar } = useSideBarContext();
 
   const handleClose = useCallback(() => {
     closeSideBar();
@@ -48,6 +49,11 @@ function SideBar(): ReactElement {
     e.nativeEvent.stopImmediatePropagation();
   };
 
+  const handleMenu = () => {
+    if (active) closeSideBar();
+    else openSideBar();
+  };
+
   return (
     <Portal>
       <Container active={active} onClick={handleClickContainer}>
@@ -59,6 +65,8 @@ function SideBar(): ReactElement {
           </li>
         </ul>
       </Container>
+
+      <HamburgerButton active={active} onClick={handleMenu} />
     </Portal>
   );
 }

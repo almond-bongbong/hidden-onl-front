@@ -8,5 +8,6 @@ declare module 'styled-components' {
     color3: string;
     basicFont: string;
     primaryFont: string;
+    basicTextShadow: string;
   }
 }

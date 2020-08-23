@@ -1,12 +1,12 @@
 import React, { ChangeEvent, ReactElement } from 'react';
 import styled from 'styled-components';
-import uuid4 from 'uuid4';
+import useFormId from '../../hooks/useFormId';
 
 interface Props {
   id?: string;
   type?: 'text' | 'password';
   value: string | number;
-  placeholder?: string;
+  label?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void | Promise<void>;
 }
 
@@ -16,22 +16,31 @@ const Container = styled.div`
 
   input {
     display: block;
-    padding: 10px 20px;
-    border: 1px solid #dedede;
+    width: 100%;
+    height: 40px;
+    padding: 8px 20px 9px;
+    border: 1px solid #ddd;
     outline: none;
   }
 `;
 
-const PlaceholderText = styled.label`
+const LabelText = styled.label`
   display: block;
-  color: #888;
+  position: absolute;
+  top: -12px;
+  left: 5px;
+  padding: 0 5px;
+  background-color: #fff;
+  color: #666;
 `;
 
-function Input({ id = uuid4(), type = 'text', value, placeholder, onChange }: Props): ReactElement {
+function Input({ id, type = 'text', value, label, onChange }: Props): ReactElement {
+  const inputId = useFormId(id);
+
   return (
     <Container>
-      <input id={id} type={type} value={value} onChange={onChange} />
-      {placeholder && <PlaceholderText htmlFor={id}>{placeholder}</PlaceholderText>}
+      {label && <LabelText htmlFor={inputId}>{label}</LabelText>}
+      <input id={inputId} type={type} value={value} onChange={onChange} />
     </Container>
   );
 }

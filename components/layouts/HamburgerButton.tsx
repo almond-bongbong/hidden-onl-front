@@ -9,9 +9,9 @@ interface Props {
 const Container = styled.button<{ active: boolean }>`
   display: block;
   position: absolute;
-  top: 50%;
+  top: 20px;
   right: 10px;
-  z-index: 10;
+  z-index: 300;
   padding: 10px;
   cursor: pointer;
   -webkit-touch-callout: none;
@@ -22,7 +22,7 @@ const Container = styled.button<{ active: boolean }>`
     width: 24px;
     height: 2px;
     position: relative;
-    background: #fff;
+    background: ${({ active }) => (active ? '#333' : '#fff')};
     border-radius: 3px;
     z-index: 1;
     transform-origin: 4px 0;

@@ -29,7 +29,7 @@ export default createGlobalStyle`
      position: relative;
   }
   html, body {
-      color: #000;
+      color: #333;
       font-size: 14px;
       line-height: 1.5;
       font-family: ${({ theme }): string => theme.basicFont};
@@ -69,7 +69,7 @@ export default createGlobalStyle`
   input[type="checkbox"] + label,
   input[type="radio"] + label{
     border-radius: 0;
-    color: #000;
+    color: #333;
     font: 14px/1.5 ${({ theme }): string => theme.basicFont};
     vertical-align: middle;
   }
