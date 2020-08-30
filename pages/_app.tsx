@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import NProgress from 'nprogress';
 import { Router } from 'next/router';
+import 'antd/dist/antd.less';
 import { ApolloProvider } from '@apollo/react-hooks';
 import 'nprogress/nprogress.css';
 import { AppProps } from 'next/app';

@@ -9,11 +9,14 @@ const Container = styled.header`
   left: 0;
   z-index: 100;
   box-shadow: 0 2px 3px 1px rgba(100, 100, 100, 0.3);
-  padding: 8px 20px;
-  background-color: ${({ theme }) => theme.primaryRgba(0.7)};
+  padding: 12px 20px;
+  background-color: ${({ theme }) => theme.primaryRgba(0.8)};
   color: #fff;
 
   h1 {
+    margin: 0;
+    color: #fff;
+    font-weight: 700;
     font-size: 16px;
   }
 `;

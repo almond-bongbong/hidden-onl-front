@@ -9,7 +9,7 @@ interface Props {
 const Container = styled.button<{ active: boolean }>`
   display: block;
   position: absolute;
-  top: 20px;
+  top: 24px;
   right: 10px;
   z-index: 300;
   padding: 10px;

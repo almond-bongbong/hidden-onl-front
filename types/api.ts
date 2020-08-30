@@ -27,7 +27,7 @@ export type Influencer = {
   __typename?: 'Influencer';
   id: Scalars['ID'];
   platform: Platform;
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   homepage?: Maybe<Scalars['String']>;
   thumbnail?: Maybe<File>;
   createdAt: Scalars['String'];

@@ -23,6 +23,7 @@ const Container = styled.nav<{ active: boolean }>`
       display: block;
       padding: 10px 20px;
       font-size: 16px;
+      color: #444;
       text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2);
     }
   }
