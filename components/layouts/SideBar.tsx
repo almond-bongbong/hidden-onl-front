@@ -18,6 +18,12 @@ const Container = styled.nav<{ active: boolean }>`
   transform: translateX(${({ active }) => (active ? '0%' : '100%')});
   transition: transform 0.3s ease-in-out;
 
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
   li {
     a {
       display: block;

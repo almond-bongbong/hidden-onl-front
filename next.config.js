@@ -21,7 +21,7 @@ module.exports = (phase) => {
       API_URL: isDev ? 'http://localhost:5000' : process.env.API_URL,
       HOST: isDev ? 'http://localhost:3000' : 'https://ideal-guide-client.now.sh',
     },
-    webpack: (config, { isServer }) => {
+    webpack: (config, { isServer, webpack }) => {
       if (isServer) {
         const antStyles = /antd\/.*?\/style.*?/;
         const origExternals = [...config.externals];

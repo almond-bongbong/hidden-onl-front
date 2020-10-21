@@ -1,6 +1,8 @@
 import React, { ReactElement } from 'react';
 import NProgress from 'nprogress';
 import { Router } from 'next/router';
+import { ConfigProvider } from 'antd';
+import koKR from 'antd/lib/locale/ko_KR';
 import 'antd/dist/antd.less';
 import { ApolloProvider } from '@apollo/react-hooks';
 import 'nprogress/nprogress.css';
@@ -22,14 +24,16 @@ export default function App({ Component, pageProps }: AppProps): ReactElement {
 
   return (
     <ThemeProvider theme={theme}>
-      <Meta />
-      <ApolloProvider client={apolloClient}>
-        <GlobalStyle />
-        <SideBarProvider>
-          <Component {...pageProps} />
-          <SideBar />
-        </SideBarProvider>
-      </ApolloProvider>
+      <ConfigProvider locale={koKR}>
+        <Meta />
+        <ApolloProvider client={apolloClient}>
+          <GlobalStyle />
+          <SideBarProvider>
+            <Component {...pageProps} />
+            <SideBar />
+          </SideBarProvider>
+        </ApolloProvider>
+      </ConfigProvider>
     </ThemeProvider>
   );
 }

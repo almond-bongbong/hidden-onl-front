@@ -11,7 +11,9 @@ function Meta(): ReactElement {
         href="https://fonts.googleapis.com/css2?family=Gugi&family=Noto+Sans+KR:wght@300;400;700&display=swap"
         rel="stylesheet"
       />
-      <script src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_APP_KEY}&libraries=clusterer`} />
+      <script
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_APP_KEY}&libraries=clusterer,services`}
+      />
     </Head>
   );
 }
