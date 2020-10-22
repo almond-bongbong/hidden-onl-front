@@ -20,7 +20,10 @@ const InputArea = styled.div`
 const CenterMarker = styled.img`
   display: block;
   position: absolute;
+  top: 50%;
+  left: 50%;
   z-index: 10;
+  height: 40px;
 `;
 
 interface Props {
@@ -78,7 +81,7 @@ function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
         />
       </InputArea>
       <Map ref={mapContainerRef} />
-      <CenterMarker />
+      <CenterMarker src="/images/map/marker.png" alt="marker" />
     </Container>
   );
 }
