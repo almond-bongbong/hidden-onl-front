@@ -1,7 +1,9 @@
-import React, { ReactElement, useEffect, useRef } from 'react';
+import React, { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Input } from 'antd';
 import useInput from '../../hooks/useInput';
+import { searchAddressByCoords, searchAddressByKeyword } from '../../utils/kakaoMap';
+import { Address, KakaoMap, RoadAddress } from '../../types/kakaoMap';
 
 const { Search } = Input;
 
@@ -24,6 +26,12 @@ const CenterMarker = styled.img`
   left: 50%;
   z-index: 10;
   height: 40px;
+  margin-top: 10px;
+  transform: translate(-50%, -50%);
+`;
+
+const AddressWrap = styled.div`
+  margin-top: 15px;
 `;
 
 interface Props {
@@ -32,40 +40,45 @@ interface Props {
 
 function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
   const mapContainerRef = useRef(null);
-  const mapRef = useRef<{ setCenter: (coords: unknown) => void } | null>(null);
-  const [address, handleAddress] = useInput(defaultAddress);
-  const coordsRef = useRef([33.450701, 126.570667]);
+  const mapRef = useRef<KakaoMap | null>(null);
+  const [keyword, handleKeyword] = useInput(defaultAddress);
+  const coordsRef = useRef([37.5546788388674, 126.970606917394]);
+  const [address, setAddress] = useState<Address>();
+  const [roadAddress, setRoadAddress] = useState<RoadAddress>();
 
-  useEffect(() => {
-    if (mapContainerRef.current) {
-      const mapOption = {
-        center: new window.kakao.maps.LatLng(coordsRef.current[0], coordsRef.current[1]), // 지도의 중심좌표
-        level: 3,
-      };
-      mapRef.current = new window.kakao.maps.Map(mapContainerRef.current, mapOption);
+  const initAddressByCoords = useCallback(async (coords) => {
+    const result = await searchAddressByCoords(coords);
+    const firstResult = result?.[0];
+
+    if (firstResult) {
+      setAddress(firstResult.address);
+      setRoadAddress(firstResult.road_address);
     }
   }, []);
 
-  const search = () => {
-    const geocoder = new window.kakao.maps.services.Geocoder();
+  useEffect(() => {
+    if (mapContainerRef.current) {
+      const defaultCenter = new window.kakao.maps.LatLng(coordsRef.current[0], coordsRef.current[1]);
+      const mapOption = {
+        center: defaultCenter,
+        level: 3,
+      };
+      mapRef.current = new window.kakao.maps.Map(mapContainerRef.current, mapOption);
+      window.kakao.maps.event.addListener(mapRef.current, 'center_changed', () => {
+        console.log(mapRef.current?.getCenter());
+      });
 
-    geocoder.addressSearch(
-      address,
-      (result: Record<string, unknown>[], status: typeof window.kakao.maps.services.Status) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+      initAddressByCoords(defaultCenter);
+    }
+  }, [initAddressByCoords]);
 
-          console.log(result, coords);
+  const search = async () => {
+    const result = await searchAddressByKeyword(keyword);
 
-          new window.kakao.maps.Marker({
-            map: mapRef.current,
-            position: coords,
-          });
-
-          mapRef.current?.setCenter(coords);
-        }
-      },
-    );
+    if (result) {
+      const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+      mapRef.current?.setCenter(coords);
+    }
   };
 
   return (
@@ -74,14 +87,19 @@ function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
         <Search
           size="large"
           placeholder="주소를 입력해 주세요"
-          value={address}
-          onChange={handleAddress}
+          value={keyword}
+          onChange={handleKeyword}
           onSearch={search}
           enterButton
         />
       </InputArea>
       <Map ref={mapContainerRef} />
       <CenterMarker src="/images/map/marker.png" alt="marker" />
+      <AddressWrap>
+        {address?.address_name}
+        <br />
+        {roadAddress?.address_name}
+      </AddressWrap>
     </Container>
   );
 }
