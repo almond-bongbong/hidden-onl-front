@@ -1,8 +1,8 @@
 import { Coords, SearchAddressByCoordsResult, SearchAddressByKeywordResult } from '../types/kakaoMap';
 import { isBrowser } from './validation';
 
-const placesService = new window.kakao.maps.services.Places();
-const geocoder = new window.kakao.maps.services.Geocoder();
+const placesService = isBrowser() && new window.kakao.maps.services.Places();
+const geocoder = isBrowser() && new window.kakao.maps.services.Geocoder();
 
 export const searchAddressByKeyword = (address: string): Promise<SearchAddressByKeywordResult[]> | null =>
   isBrowser()

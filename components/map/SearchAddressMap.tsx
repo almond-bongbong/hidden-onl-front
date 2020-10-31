@@ -47,12 +47,17 @@ function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
   const [roadAddress, setRoadAddress] = useState<RoadAddress>();
 
   const initAddressByCoords = useCallback(async (coords) => {
-    const result = await searchAddressByCoords(coords);
-    const firstResult = result?.[0];
+    try {
+      const result = await searchAddressByCoords(coords);
+      const firstResult = result?.[0];
 
-    if (firstResult) {
-      setAddress(firstResult.address);
-      setRoadAddress(firstResult.road_address);
+      if (firstResult) {
+        setAddress(firstResult.address);
+        setRoadAddress(firstResult.road_address);
+      }
+    } catch (e) {
+      setAddress(undefined);
+      setRoadAddress(undefined);
     }
   }, []);
 
@@ -64,8 +69,8 @@ function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
         level: 3,
       };
       mapRef.current = new window.kakao.maps.Map(mapContainerRef.current, mapOption);
-      window.kakao.maps.event.addListener(mapRef.current, 'center_changed', () => {
-        console.log(mapRef.current?.getCenter());
+      window.kakao.maps.event.addListener(mapRef.current, 'dragend', () => {
+        initAddressByCoords(mapRef.current?.getCenter());
       });
 
       initAddressByCoords(defaultCenter);

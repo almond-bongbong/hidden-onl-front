@@ -72,7 +72,6 @@ module.exports = (phase) => {
         });
       }
 
-      config.resolve.alias['@'] = path.resolve(__dirname);
       return config;
     },
   });
