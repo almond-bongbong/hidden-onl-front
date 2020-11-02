@@ -4,6 +4,7 @@ import { Input } from 'antd';
 import useInput from '../../hooks/useInput';
 import { searchAddressByCoords, searchAddressByKeyword } from '../../utils/kakaoMap';
 import { Address, KakaoMap, RoadAddress } from '../../types/kakaoMap';
+import { AddressValues } from '../../types/common';
 
 const { Search } = Input;
 
@@ -36,9 +37,10 @@ const AddressWrap = styled.div`
 
 interface Props {
   defaultAddress?: string;
+  onChangeAddress: (data: AddressValues) => void;
 }
 
-function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
+function SearchAddressMap({ defaultAddress = '', onChangeAddress }: Props): ReactElement {
   const mapContainerRef = useRef(null);
   const mapRef = useRef<KakaoMap | null>(null);
   const [keyword, handleKeyword] = useInput(defaultAddress);
@@ -62,6 +64,10 @@ function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
   }, []);
 
   useEffect(() => {
+    onChangeAddress({ address, roadAddress });
+  }, [onChangeAddress, address, roadAddress]);
+
+  useEffect(() => {
     if (mapContainerRef.current) {
       const defaultCenter = new window.kakao.maps.LatLng(coordsRef.current[0], coordsRef.current[1]);
       const mapOption = {
@@ -83,6 +89,7 @@ function SearchAddressMap({ defaultAddress = '' }: Props): ReactElement {
     if (result) {
       const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
       mapRef.current?.setCenter(coords);
+      initAddressByCoords(coords);
     }
   };
 

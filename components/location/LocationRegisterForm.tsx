@@ -9,6 +9,7 @@ import FormField from '../form/FormField';
 import SearchAddressMapModal from '../modal/SearchAddressMapModal';
 import useModal from '../../hooks/useModal';
 import useInput from '../../hooks/useInput';
+import { AddressValues } from '../../types/common';
 
 const { Search } = Input;
 
@@ -21,10 +22,17 @@ const ButtonWrap = styled.div`
 function LocationRegisterForm(): ReactElement {
   const { data } = useQuery<Query>(GET_INFLUENCERS);
   const [visibleSearchAddress, openSearchAddress, closeSearchAddress] = useModal();
-  const [address, handleAddress] = useInput('');
+  const [address, handleAddress, setAddress] = useInput('');
 
   const searchAddress = () => {
     openSearchAddress();
+  };
+
+  const handleSearchResult = ({ address: findAddress, roadAddress: findRoadAddress }: AddressValues) => {
+    const roadAddressString = findRoadAddress && `${findRoadAddress.address_name} ${findRoadAddress.building_name}`;
+    const addressString = findAddress?.address_name;
+    setAddress(roadAddressString || addressString || '');
+    closeSearchAddress();
   };
 
   return (
@@ -62,7 +70,12 @@ function LocationRegisterForm(): ReactElement {
         </Button>
       </ButtonWrap>
 
-      <SearchAddressMapModal visible={visibleSearchAddress} onCancel={closeSearchAddress} defaultAddress={address} />
+      <SearchAddressMapModal
+        visible={visibleSearchAddress}
+        onCancel={closeSearchAddress}
+        onOk={handleSearchResult}
+        defaultAddress={address}
+      />
     </Container>
   );
 }
