@@ -64,7 +64,9 @@ function LocationRegisterForm(): ReactElement {
 
       console.log(result.errors);
     } catch (e) {
-      console.error(e);
+      if (e.message === 'UnAuthenticated') {
+        message.error('로그인 후 이용가능 합니다.');
+      }
     }
   };
 
@@ -85,13 +87,10 @@ function LocationRegisterForm(): ReactElement {
       </FormField>
       <FormField label="인플루언서">
         <Select
+          size="large"
+          style={{ width: '100%' }}
           value={influencer}
           onChange={handleInfluencer}
-          showSearch
-          size="large"
-          defaultActiveFirstOption={false}
-          showArrow={false}
-          style={{ width: '100%' }}
           options={data?.getInfluencers.map((i) => ({
             value: i.id,
             label: <InfluencerOption thumbnailUrl={i.thumbnail?.url} name={i.name} />,
