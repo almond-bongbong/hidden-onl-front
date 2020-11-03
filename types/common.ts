@@ -10,4 +10,6 @@ export type MarkerClusterer = typeof kakao.maps.MarkerClusterer;
 export interface AddressValues {
   address?: Address;
   roadAddress?: RoadAddress;
+  latitude?: number;
+  longitude?: number;
 }

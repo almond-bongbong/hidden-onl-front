@@ -7,13 +7,14 @@ interface Props {
   visible: boolean;
   onOk: (addressValues: AddressValues) => void;
   onCancel: () => void;
-  defaultAddress: string;
 }
 
-function SearchAddressMapModal({ visible, onCancel, onOk, defaultAddress }: Props): ReactElement {
+function SearchAddressMapModal({ visible, onCancel, onOk }: Props): ReactElement {
   const [addressData, setAddressData] = useState<AddressValues>({
     address: undefined,
     roadAddress: undefined,
+    latitude: undefined,
+    longitude: undefined,
   });
 
   const handleOk = () => {
@@ -22,7 +23,7 @@ function SearchAddressMapModal({ visible, onCancel, onOk, defaultAddress }: Prop
 
   return (
     <Modal title="주소검색" width={800} destroyOnClose visible={visible} onCancel={onCancel} onOk={handleOk}>
-      <SearchAddressMap defaultAddress={defaultAddress} onChangeAddress={setAddressData} />
+      <SearchAddressMap onChangeAddress={setAddressData} />
     </Modal>
   );
 }

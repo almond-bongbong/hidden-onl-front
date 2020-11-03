@@ -40,10 +40,10 @@ interface Props {
   onChangeAddress: (data: AddressValues) => void;
 }
 
-function SearchAddressMap({ defaultAddress = '', onChangeAddress }: Props): ReactElement {
+function SearchAddressMap({ onChangeAddress }: Props): ReactElement {
   const mapContainerRef = useRef(null);
   const mapRef = useRef<KakaoMap | null>(null);
-  const [keyword, handleKeyword] = useInput(defaultAddress);
+  const [keyword, handleKeyword] = useInput('');
   const coordsRef = useRef([37.5546788388674, 126.970606917394]);
   const [address, setAddress] = useState<Address>();
   const [roadAddress, setRoadAddress] = useState<RoadAddress>();
@@ -56,6 +56,7 @@ function SearchAddressMap({ defaultAddress = '', onChangeAddress }: Props): Reac
       if (firstResult) {
         setAddress(firstResult.address);
         setRoadAddress(firstResult.road_address);
+        coordsRef.current = [coords.getLat(), coords.getLng()];
       }
     } catch (e) {
       setAddress(undefined);
@@ -63,8 +64,18 @@ function SearchAddressMap({ defaultAddress = '', onChangeAddress }: Props): Reac
     }
   }, []);
 
+  const search = async () => {
+    const result = await searchAddressByKeyword(keyword);
+
+    if (result) {
+      const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+      mapRef.current?.setCenter(coords);
+      initAddressByCoords(coords);
+    }
+  };
+
   useEffect(() => {
-    onChangeAddress({ address, roadAddress });
+    onChangeAddress({ address, roadAddress, latitude: coordsRef.current[0], longitude: coordsRef.current[1] });
   }, [onChangeAddress, address, roadAddress]);
 
   useEffect(() => {
@@ -82,16 +93,6 @@ function SearchAddressMap({ defaultAddress = '', onChangeAddress }: Props): Reac
       initAddressByCoords(defaultCenter);
     }
   }, [initAddressByCoords]);
-
-  const search = async () => {
-    const result = await searchAddressByKeyword(keyword);
-
-    if (result) {
-      const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-      mapRef.current?.setCenter(coords);
-      initAddressByCoords(coords);
-    }
-  };
 
   return (
     <Container>
