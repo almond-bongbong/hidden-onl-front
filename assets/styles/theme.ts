@@ -7,7 +7,7 @@ const theme: DefaultTheme = {
   color3: '#07dff7',
   basicFont: `'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;`,
   primaryFont: `'Gugi', 'Noto Sans KR', cursive`,
-  basicTextShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)',
+  basicTextShadow: '1px 1px 1px rgba(0, 0, 0, 0.3)',
 };
 
 export { theme };
