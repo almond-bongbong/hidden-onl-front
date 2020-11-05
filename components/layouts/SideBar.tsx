@@ -66,6 +66,11 @@ function SideBar(): ReactElement {
       <Container active={active} onClick={handleClickContainer}>
         <ul>
           <li>
+            <Link href="/login">
+              <a>로그인</a>
+            </Link>
+          </li>
+          <li>
             <Link href="/place/register">
               <a>장소 등록하기</a>
             </Link>

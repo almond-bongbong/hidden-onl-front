@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Input, message, Select } from 'antd';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { MutationRegisterPlaceArgs, MutationResponse, Query } from '../../types/api';
+import { ErrorName, MutationRegisterPlaceArgs, MutationResponse, Query } from '../../types/api';
 import { GET_INFLUENCERS } from '../../queries/influencerQueries';
 import InfluencerOption from '../form/InfluencerOption';
 import FormField from '../form/FormField';
@@ -55,6 +55,7 @@ function LocationRegisterForm(): ReactElement {
         variables: {
           name,
           influencerId: influencer,
+          link,
           location: {
             latitude: addressData.latitude,
             longitude: addressData.longitude,
@@ -62,10 +63,14 @@ function LocationRegisterForm(): ReactElement {
         },
       });
 
-      console.log(result.errors);
+      console.log(result.data?.ok);
+      message.success('성공적으로 등록되었습니다.');
     } catch (e) {
-      if (e.message === 'UnAuthenticated') {
+      console.log('hello', e.name);
+      if (e.graphQLErrors[0].name === ErrorName.Unauthenticated) {
         message.error('로그인 후 이용가능 합니다.');
+      } else {
+        message.error('등록 중 문제가 발생했습니다.');
       }
     }
   };

@@ -17,7 +17,6 @@ export type Query = {
   getPlaces: Array<Maybe<Place>>;
 };
 
-
 export type QueryGetPlacesArgs = {
   leftBottom: LatLngInput;
   rightTop: LatLngInput;
@@ -37,7 +36,7 @@ export type Influencer = {
 export enum Platform {
   Youtube = 'YOUTUBE',
   Instagram = 'INSTAGRAM',
-  Tv = 'TV'
+  Tv = 'TV',
 }
 
 export type File = {
@@ -60,7 +59,7 @@ export type CurrentAccount = {
 export enum Role {
   User = 'USER',
   Manager = 'MANAGER',
-  Admin = 'ADMIN'
+  Admin = 'ADMIN',
 }
 
 export type Account = {
@@ -77,7 +76,7 @@ export type Account = {
 };
 
 export enum LoginPlatform {
-  Kakao = 'KAKAO'
+  Kakao = 'KAKAO',
 }
 
 export type LatLngInput = {
@@ -108,14 +107,12 @@ export type Mutation = {
   registerPlace: MutationResponse;
 };
 
-
 export type MutationRegisterInfluencerArgs = {
   platform: Platform;
   name: Scalars['String'];
   homepage: Scalars['String'];
   thumbnail?: Maybe<FileInput>;
 };
-
 
 export type MutationUpdateInfluencerArgs = {
   id: Scalars['String'];
@@ -124,23 +121,21 @@ export type MutationUpdateInfluencerArgs = {
   thumbnail?: Maybe<FileInput>;
 };
 
-
 export type MutationLoginArgs = {
   accessToken: Scalars['String'];
   platform: LoginPlatform;
 };
-
 
 export type MutationUpdateMeArgs = {
   thumbnail?: Maybe<FileInput>;
   name?: Maybe<Scalars['String']>;
 };
 
-
 export type MutationRegisterPlaceArgs = {
   name: Scalars['String'];
   location: LocationInput;
   influencerId: Scalars['String'];
+  link: Scalars['String'];
 };
 
 export type FileInput = {
@@ -172,3 +167,6 @@ export type LocationInput = {
   addressDetail?: Maybe<Scalars['String']>;
 };
 
+export enum ErrorName {
+  Unauthenticated = 'UNAUTHENTICATED',
+}
