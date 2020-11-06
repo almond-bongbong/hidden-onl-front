@@ -8,7 +8,7 @@ function createApolloClient() {
     ssrMode: typeof window === 'undefined',
     cache: new InMemoryCache(),
     link: new HttpLink({
-      uri: process.env.API_URL,
+      uri: process.env.NEXT_PUBLIC_API_URL,
       credentials: 'same-origin',
     }),
   });

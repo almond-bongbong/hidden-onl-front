@@ -12,7 +12,7 @@ function Meta(): ReactElement {
         rel="stylesheet"
       />
       <script
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_APP_KEY}&libraries=clusterer,services`}
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_APP_KEY}&libraries=clusterer,services`}
       />
     </Head>
   );
