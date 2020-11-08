@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
 import { LOGIN_STATE_KEY } from '../constants/storageKeys';
 import qs from 'query-string';
+import { getKakaoRedirectUri } from '../utils/url';
 
 interface Return {
   loginWithKakao: () => Promise<void>;
@@ -12,7 +13,7 @@ function useLogin(): Return {
     const state = uuid();
     const params = {
       client_id: process.env.NEXT_PUBLIC_KAKAO_API_KEY,
-      redirect_uri: `${window.location.origin}${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_PATH}`,
+      redirect_uri: getKakaoRedirectUri(),
       response_type: 'code',
       state,
     };
