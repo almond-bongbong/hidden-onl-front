@@ -17,6 +17,7 @@ export type Query = {
   getPlaces: Array<Maybe<Place>>;
 };
 
+
 export type QueryGetPlacesArgs = {
   leftBottom: LatLngInput;
   rightTop: LatLngInput;
@@ -36,7 +37,7 @@ export type Influencer = {
 export enum Platform {
   Youtube = 'YOUTUBE',
   Instagram = 'INSTAGRAM',
-  Tv = 'TV',
+  Tv = 'TV'
 }
 
 export type File = {
@@ -59,7 +60,7 @@ export type CurrentAccount = {
 export enum Role {
   User = 'USER',
   Manager = 'MANAGER',
-  Admin = 'ADMIN',
+  Admin = 'ADMIN'
 }
 
 export type Account = {
@@ -76,7 +77,7 @@ export type Account = {
 };
 
 export enum LoginPlatform {
-  Kakao = 'KAKAO',
+  Kakao = 'KAKAO'
 }
 
 export type LatLngInput = {
@@ -102,10 +103,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   registerInfluencer: MutationResponse;
   updateInfluencer: MutationResponse;
-  login?: Maybe<LoginReponse>;
+  login?: Maybe<LoginResponse>;
   updateMe?: Maybe<MutationResponse>;
   registerPlace: MutationResponse;
 };
+
 
 export type MutationRegisterInfluencerArgs = {
   platform: Platform;
@@ -114,6 +116,7 @@ export type MutationRegisterInfluencerArgs = {
   thumbnail?: Maybe<FileInput>;
 };
 
+
 export type MutationUpdateInfluencerArgs = {
   id: Scalars['String'];
   name?: Maybe<Scalars['String']>;
@@ -121,15 +124,18 @@ export type MutationUpdateInfluencerArgs = {
   thumbnail?: Maybe<FileInput>;
 };
 
+
 export type MutationLoginArgs = {
   accessToken: Scalars['String'];
   platform: LoginPlatform;
 };
 
+
 export type MutationUpdateMeArgs = {
   thumbnail?: Maybe<FileInput>;
   name?: Maybe<Scalars['String']>;
 };
+
 
 export type MutationRegisterPlaceArgs = {
   name: Scalars['String'];
@@ -151,8 +157,8 @@ export type MutationResponse = {
   code?: Maybe<Scalars['String']>;
 };
 
-export type LoginReponse = {
-  __typename?: 'LoginReponse';
+export type LoginResponse = {
+  __typename?: 'LoginResponse';
   ok: Scalars['Boolean'];
   message: Scalars['String'];
   code?: Maybe<Scalars['String']>;
@@ -168,5 +174,6 @@ export type LocationInput = {
 };
 
 export enum ErrorName {
-  Unauthenticated = 'UNAUTHENTICATED',
+  Unauthenticated = 'UNAUTHENTICATED'
 }
+
