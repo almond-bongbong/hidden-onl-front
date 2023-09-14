@@ -1,6 +1,6 @@
 # 프로젝트 오늘
 
-> Nextjs, Typescript, Styled-Components
+> Nextjs, Typescript, Styled-Component
 
 ### Todo
 - [ ] Redux configuration
